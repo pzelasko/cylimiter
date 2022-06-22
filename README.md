@@ -26,6 +26,26 @@ audio_lim = limiter.limit(audio)
 limiter.reset()
 ```
 
+## Installation
+
+From PyPI via pip:
+```bash
+pip install cylimiter
+```
+
+From source:
+```bash
+git clone https://github.com/pzelasko/cylimiter
+cd cylimiter
+pip install .
+```
+
+Re-generate C++ sources from Cython:
+```bash
+cd extensions
+cython -3 --cplus *.pyx
+```
+
 ## Motivation
 
 I couldn't easily find a package that implements audio limiter in Python in a suitable way for streaming audio. The closest (and the main inspiration) is [this gist by @bastibe](https://gist.github.com/bastibe/747283c55aad66404046). Since the algorithm is auto-regressive, I figured C++ will be much more efficient than Python.
