@@ -1029,12 +1029,70 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
 static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
     Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
 
+/* GetAttr.proto */
+static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *, PyObject *);
+
+/* HasAttr.proto */
+static CYTHON_INLINE int __Pyx_HasAttr(PyObject *, PyObject *);
+
+/* PyIntCompare.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, long inplace);
+
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyFunctionFastCall.proto */
+#if CYTHON_FAST_PYCALL
+#define __Pyx_PyFunction_FastCall(func, args, nargs)\
+    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
+#else
+#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
+#endif
+#define __Pyx_BUILD_ASSERT_EXPR(cond)\
+    (sizeof(char [1 - 2*!(cond)]) - 1)
+#ifndef Py_MEMBER_SIZE
+#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
+#endif
+#if CYTHON_FAST_PYCALL
+  static size_t __pyx_pyframe_localsplus_offset = 0;
+  #include "frameobject.h"
+#if PY_VERSION_HEX >= 0x030b00a6
+  #ifndef Py_BUILD_CORE
+    #define Py_BUILD_CORE 1
+  #endif
+  #include "internal/pycore_frame.h"
+#endif
+  #define __Pxy_PyFrame_Initialize_Offsets()\
+    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
+     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
+  #define __Pyx_PyFrame_GetLocalsplus(frame)\
+    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
+#endif // CYTHON_FAST_PYCALL
+#endif
+
 /* PyObjectCall.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
 #else
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
+
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+
+/* PyObjectCallMethO.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1233,6 +1291,7 @@ static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_range;
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
+static const char __pyx_k_ndim[] = "ndim";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_delay[] = "delay";
 static const char __pyx_k_range[] = "range";
@@ -1246,10 +1305,21 @@ static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
 static const char __pyx_k_threshold[] = "threshold";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
+static const char __pyx_k_validate_input[] = "_validate_input";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
+static const char __pyx_k_Permitted_attack_value_range_is[] = "Permitted attack value range is (0 - 1).";
+static const char __pyx_k_Permitted_threshold_value_range[] = "Permitted threshold value range is (0 - 1).";
+static const char __pyx_k_The_input_audio_array_has_to_be[] = "The input audio array has to be single-dimensional (only mono audio is supported).";
+static const char __pyx_k_Delay_has_to_be_an_integer_great[] = "Delay has to be an integer greater than zero.";
+static const char __pyx_k_Permitted_release_value_range_is[] = "Permitted release value range is (0 - 1).";
 static const char __pyx_k_self__limiter_cannot_be_converte[] = "self._limiter cannot be converted to a Python object for pickling";
+static PyObject *__pyx_kp_u_Delay_has_to_be_an_integer_great;
 static PyObject *__pyx_n_s_Limiter;
+static PyObject *__pyx_kp_u_Permitted_attack_value_range_is;
+static PyObject *__pyx_kp_u_Permitted_release_value_range_is;
+static PyObject *__pyx_kp_u_Permitted_threshold_value_range;
+static PyObject *__pyx_kp_u_The_input_audio_array_has_to_be;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_attack;
 static PyObject *__pyx_n_s_cline_in_traceback;
@@ -1257,6 +1327,8 @@ static PyObject *__pyx_n_s_delay;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_name;
+static PyObject *__pyx_n_s_ndim;
+static PyObject *__pyx_n_u_ndim;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
@@ -1267,13 +1339,17 @@ static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_threshold;
+static PyObject *__pyx_n_s_validate_input;
 static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, double __pyx_v_attack, double __pyx_v_release, PyObject *__pyx_v_delay, double __pyx_v_threshold); /* proto */
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_2limit_inplace(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio); /* proto */
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_4limit(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio); /* proto */
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_6reset(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_2_validate_input(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio); /* proto */
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_4limit_inplace(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio); /* proto */
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_6limit(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio); /* proto */
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_8reset(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_10__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_12__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_10extensions_9cylimiter_Limiter(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_int_0;
+static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_40;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
@@ -1282,9 +1358,9 @@ static PyObject *__pyx_tuple__2;
 /* "extensions/cylimiter.pyx":11
  *     cdef unique_ptr[CLimiter] _limiter
  * 
- *     def __init__(self, attack: float = 0.9, release: float = 0.9995, delay: int = 40, threshold: float = 0.6):             # <<<<<<<<<<<<<<
- *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))
- * 
+ *     def __init__(self, attack: float = 0.9, release: float = 0.9995, delay: int = 40, threshold: float = 0.95):             # <<<<<<<<<<<<<<
+ *         assert 0 < attack < 1, "Permitted attack value range is (0 - 1)."
+ *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."
  */
 
 /* Python wrapper */
@@ -1376,7 +1452,7 @@ static int __pyx_pw_10extensions_9cylimiter_7Limiter_1__init__(PyObject *__pyx_v
     if (values[3]) {
       __pyx_v_threshold = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_threshold == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 11, __pyx_L3_error)
     } else {
-      __pyx_v_threshold = ((double)0.6);
+      __pyx_v_threshold = ((double)0.95);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
@@ -1398,6 +1474,10 @@ static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_1
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1405,26 +1485,115 @@ static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_1
 
   /* "extensions/cylimiter.pyx":12
  * 
- *     def __init__(self, attack: float = 0.9, release: float = 0.9995, delay: int = 40, threshold: float = 0.6):
+ *     def __init__(self, attack: float = 0.9, release: float = 0.9995, delay: int = 40, threshold: float = 0.95):
+ *         assert 0 < attack < 1, "Permitted attack value range is (0 - 1)."             # <<<<<<<<<<<<<<
+ *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."
+ *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."
+ */
+  #ifndef CYTHON_WITHOUT_ASSERTIONS
+  if (unlikely(!Py_OptimizeFlag)) {
+    __pyx_t_1 = (0.0 < __pyx_v_attack);
+    if (__pyx_t_1) {
+      __pyx_t_1 = (__pyx_v_attack < 1.0);
+    }
+    if (unlikely(!(__pyx_t_1 != 0))) {
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_Permitted_attack_value_range_is);
+      __PYX_ERR(1, 12, __pyx_L1_error)
+    }
+  }
+  #endif
+
+  /* "extensions/cylimiter.pyx":13
+ *     def __init__(self, attack: float = 0.9, release: float = 0.9995, delay: int = 40, threshold: float = 0.95):
+ *         assert 0 < attack < 1, "Permitted attack value range is (0 - 1)."
+ *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."             # <<<<<<<<<<<<<<
+ *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."
+ *         assert isinstance(delay, int) and delay > 0, "Delay has to be an integer greater than zero."
+ */
+  #ifndef CYTHON_WITHOUT_ASSERTIONS
+  if (unlikely(!Py_OptimizeFlag)) {
+    __pyx_t_1 = (0.0 < __pyx_v_release);
+    if (__pyx_t_1) {
+      __pyx_t_1 = (__pyx_v_release < 1.0);
+    }
+    if (unlikely(!(__pyx_t_1 != 0))) {
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_Permitted_release_value_range_is);
+      __PYX_ERR(1, 13, __pyx_L1_error)
+    }
+  }
+  #endif
+
+  /* "extensions/cylimiter.pyx":14
+ *         assert 0 < attack < 1, "Permitted attack value range is (0 - 1)."
+ *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."
+ *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."             # <<<<<<<<<<<<<<
+ *         assert isinstance(delay, int) and delay > 0, "Delay has to be an integer greater than zero."
+ *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))
+ */
+  #ifndef CYTHON_WITHOUT_ASSERTIONS
+  if (unlikely(!Py_OptimizeFlag)) {
+    __pyx_t_1 = (0.0 < __pyx_v_threshold);
+    if (__pyx_t_1) {
+      __pyx_t_1 = (__pyx_v_threshold < 1.0);
+    }
+    if (unlikely(!(__pyx_t_1 != 0))) {
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_Permitted_threshold_value_range);
+      __PYX_ERR(1, 14, __pyx_L1_error)
+    }
+  }
+  #endif
+
+  /* "extensions/cylimiter.pyx":15
+ *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."
+ *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."
+ *         assert isinstance(delay, int) and delay > 0, "Delay has to be an integer greater than zero."             # <<<<<<<<<<<<<<
+ *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))
+ * 
+ */
+  #ifndef CYTHON_WITHOUT_ASSERTIONS
+  if (unlikely(!Py_OptimizeFlag)) {
+    __pyx_t_2 = PyInt_Check(__pyx_v_delay); 
+    __pyx_t_3 = (__pyx_t_2 != 0);
+    if (__pyx_t_3) {
+    } else {
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L3_bool_binop_done;
+    }
+    __pyx_t_4 = PyObject_RichCompare(__pyx_v_delay, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_L3_bool_binop_done:;
+    if (unlikely(!__pyx_t_1)) {
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_Delay_has_to_be_an_integer_great);
+      __PYX_ERR(1, 15, __pyx_L1_error)
+    }
+  }
+  #endif
+
+  /* "extensions/cylimiter.pyx":16
+ *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."
+ *         assert isinstance(delay, int) and delay > 0, "Delay has to be an integer greater than zero."
  *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))             # <<<<<<<<<<<<<<
  * 
- *     def limit_inplace(self, audio):
+ *     def _validate_input(self, audio):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_delay); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v_self->_limiter.reset(new CLimiter(__pyx_v_attack, __pyx_v_release, __pyx_t_1, __pyx_v_threshold));
+  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_delay); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 16, __pyx_L1_error)
+  __pyx_v_self->_limiter.reset(new CLimiter(__pyx_v_attack, __pyx_v_release, __pyx_t_5, __pyx_v_threshold));
 
   /* "extensions/cylimiter.pyx":11
  *     cdef unique_ptr[CLimiter] _limiter
  * 
- *     def __init__(self, attack: float = 0.9, release: float = 0.9995, delay: int = 40, threshold: float = 0.6):             # <<<<<<<<<<<<<<
- *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))
- * 
+ *     def __init__(self, attack: float = 0.9, release: float = 0.9995, delay: int = 40, threshold: float = 0.95):             # <<<<<<<<<<<<<<
+ *         assert 0 < attack < 1, "Permitted attack value range is (0 - 1)."
+ *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."
  */
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("extensions.cylimiter.Limiter.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
@@ -1432,58 +1601,188 @@ static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":14
+/* "extensions/cylimiter.pyx":18
  *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))
  * 
- *     def limit_inplace(self, audio):             # <<<<<<<<<<<<<<
- *         self._limiter.get().limit_inplace(audio)
- * 
+ *     def _validate_input(self, audio):             # <<<<<<<<<<<<<<
+ *         if hasattr(audio, "ndim"):
+ *             assert audio.ndim == 1, "The input audio array has to be single-dimensional (only mono audio is supported)."
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_3limit_inplace(PyObject *__pyx_v_self, PyObject *__pyx_v_audio); /*proto*/
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_3limit_inplace(PyObject *__pyx_v_self, PyObject *__pyx_v_audio) {
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_3_validate_input(PyObject *__pyx_v_self, PyObject *__pyx_v_audio); /*proto*/
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_3_validate_input(PyObject *__pyx_v_self, PyObject *__pyx_v_audio) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("limit_inplace (wrapper)", 0);
-  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_2limit_inplace(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self), ((PyObject *)__pyx_v_audio));
+  __Pyx_RefNannySetupContext("_validate_input (wrapper)", 0);
+  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_2_validate_input(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self), ((PyObject *)__pyx_v_audio));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_2limit_inplace(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio) {
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_2_validate_input(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  std::vector<float>  __pyx_t_1;
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("limit_inplace", 0);
+  __Pyx_RefNannySetupContext("_validate_input", 0);
 
-  /* "extensions/cylimiter.pyx":15
+  /* "extensions/cylimiter.pyx":19
+ * 
+ *     def _validate_input(self, audio):
+ *         if hasattr(audio, "ndim"):             # <<<<<<<<<<<<<<
+ *             assert audio.ndim == 1, "The input audio array has to be single-dimensional (only mono audio is supported)."
+ * 
+ */
+  __pyx_t_1 = __Pyx_HasAttr(__pyx_v_audio, __pyx_n_u_ndim); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(1, 19, __pyx_L1_error)
+  __pyx_t_2 = (__pyx_t_1 != 0);
+  if (__pyx_t_2) {
+
+    /* "extensions/cylimiter.pyx":20
+ *     def _validate_input(self, audio):
+ *         if hasattr(audio, "ndim"):
+ *             assert audio.ndim == 1, "The input audio array has to be single-dimensional (only mono audio is supported)."             # <<<<<<<<<<<<<<
  * 
  *     def limit_inplace(self, audio):
- *         self._limiter.get().limit_inplace(audio)             # <<<<<<<<<<<<<<
- * 
- *     def limit(self, audio):
  */
-  __pyx_t_1 = __pyx_convert_vector_from_py_float(__pyx_v_audio); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 15, __pyx_L1_error)
-  __pyx_v_self->_limiter.get()->limit_inplace(__pyx_t_1);
+    #ifndef CYTHON_WITHOUT_ASSERTIONS
+    if (unlikely(!Py_OptimizeFlag)) {
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_audio, __pyx_n_s_ndim); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 20, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = __Pyx_PyInt_EqObjC(__pyx_t_3, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 20, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(1, 20, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_t_2)) {
+        PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_The_input_audio_array_has_to_be);
+        __PYX_ERR(1, 20, __pyx_L1_error)
+      }
+    }
+    #endif
 
-  /* "extensions/cylimiter.pyx":14
+    /* "extensions/cylimiter.pyx":19
+ * 
+ *     def _validate_input(self, audio):
+ *         if hasattr(audio, "ndim"):             # <<<<<<<<<<<<<<
+ *             assert audio.ndim == 1, "The input audio array has to be single-dimensional (only mono audio is supported)."
+ * 
+ */
+  }
+
+  /* "extensions/cylimiter.pyx":18
  *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))
  * 
- *     def limit_inplace(self, audio):             # <<<<<<<<<<<<<<
- *         self._limiter.get().limit_inplace(audio)
- * 
+ *     def _validate_input(self, audio):             # <<<<<<<<<<<<<<
+ *         if hasattr(audio, "ndim"):
+ *             assert audio.ndim == 1, "The input audio array has to be single-dimensional (only mono audio is supported)."
  */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("extensions.cylimiter.Limiter._validate_input", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "extensions/cylimiter.pyx":22
+ *             assert audio.ndim == 1, "The input audio array has to be single-dimensional (only mono audio is supported)."
+ * 
+ *     def limit_inplace(self, audio):             # <<<<<<<<<<<<<<
+ *         self._validate_input(audio)
+ *         self._limiter.get().limit_inplace(audio)
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_5limit_inplace(PyObject *__pyx_v_self, PyObject *__pyx_v_audio); /*proto*/
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_5limit_inplace(PyObject *__pyx_v_self, PyObject *__pyx_v_audio) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("limit_inplace (wrapper)", 0);
+  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_4limit_inplace(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self), ((PyObject *)__pyx_v_audio));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_4limit_inplace(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  std::vector<float>  __pyx_t_4;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("limit_inplace", 0);
+
+  /* "extensions/cylimiter.pyx":23
+ * 
+ *     def limit_inplace(self, audio):
+ *         self._validate_input(audio)             # <<<<<<<<<<<<<<
+ *         self._limiter.get().limit_inplace(audio)
+ * 
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_validate_input); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_audio) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_audio);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "extensions/cylimiter.pyx":24
+ *     def limit_inplace(self, audio):
+ *         self._validate_input(audio)
+ *         self._limiter.get().limit_inplace(audio)             # <<<<<<<<<<<<<<
+ * 
+ *     def limit(self, audio):
+ */
+  __pyx_t_4 = __pyx_convert_vector_from_py_float(__pyx_v_audio); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 24, __pyx_L1_error)
+  __pyx_v_self->_limiter.get()->limit_inplace(__pyx_t_4);
+
+  /* "extensions/cylimiter.pyx":22
+ *             assert audio.ndim == 1, "The input audio array has to be single-dimensional (only mono audio is supported)."
+ * 
+ *     def limit_inplace(self, audio):             # <<<<<<<<<<<<<<
+ *         self._validate_input(audio)
+ *         self._limiter.get().limit_inplace(audio)
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("extensions.cylimiter.Limiter.limit_inplace", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1492,63 +1791,93 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_2limit_inplace(struct
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":17
+/* "extensions/cylimiter.pyx":26
  *         self._limiter.get().limit_inplace(audio)
  * 
  *     def limit(self, audio):             # <<<<<<<<<<<<<<
+ *         self._validate_input(audio)
  *         return self._limiter.get().limit(audio)
- * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_5limit(PyObject *__pyx_v_self, PyObject *__pyx_v_audio); /*proto*/
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_5limit(PyObject *__pyx_v_self, PyObject *__pyx_v_audio) {
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_7limit(PyObject *__pyx_v_self, PyObject *__pyx_v_audio); /*proto*/
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_7limit(PyObject *__pyx_v_self, PyObject *__pyx_v_audio) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("limit (wrapper)", 0);
-  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_4limit(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self), ((PyObject *)__pyx_v_audio));
+  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_6limit(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self), ((PyObject *)__pyx_v_audio));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_4limit(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio) {
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_6limit(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, PyObject *__pyx_v_audio) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  std::vector<float>  __pyx_t_1;
+  PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  std::vector<float>  __pyx_t_4;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("limit", 0);
 
-  /* "extensions/cylimiter.pyx":18
+  /* "extensions/cylimiter.pyx":27
  * 
  *     def limit(self, audio):
+ *         self._validate_input(audio)             # <<<<<<<<<<<<<<
+ *         return self._limiter.get().limit(audio)
+ * 
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_validate_input); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_audio) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_audio);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "extensions/cylimiter.pyx":28
+ *     def limit(self, audio):
+ *         self._validate_input(audio)
  *         return self._limiter.get().limit(audio)             # <<<<<<<<<<<<<<
  * 
  *     def reset(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_from_py_float(__pyx_v_audio); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 18, __pyx_L1_error)
-  __pyx_t_2 = __pyx_convert_vector_to_py_float(__pyx_v_self->_limiter.get()->limit(__pyx_t_1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_4 = __pyx_convert_vector_from_py_float(__pyx_v_audio); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 28, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_float(__pyx_v_self->_limiter.get()->limit(__pyx_t_4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 28, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "extensions/cylimiter.pyx":17
+  /* "extensions/cylimiter.pyx":26
  *         self._limiter.get().limit_inplace(audio)
  * 
  *     def limit(self, audio):             # <<<<<<<<<<<<<<
+ *         self._validate_input(audio)
  *         return self._limiter.get().limit(audio)
- * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("extensions.cylimiter.Limiter.limit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1557,7 +1886,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_4limit(struct __pyx_o
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":20
+/* "extensions/cylimiter.pyx":30
  *         return self._limiter.get().limit(audio)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -1565,19 +1894,19 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_4limit(struct __pyx_o
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_7reset(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_7reset(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_9reset(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_9reset(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("reset (wrapper)", 0);
-  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_6reset(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_8reset(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_6reset(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self) {
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_8reset(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1586,19 +1915,19 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_6reset(struct __pyx_o
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "extensions/cylimiter.pyx":21
+  /* "extensions/cylimiter.pyx":31
  * 
  *     def reset(self):
  *         return self._limiter.get().reset()             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->_limiter.get()->reset()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 21, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->_limiter.get()->reset()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "extensions/cylimiter.pyx":20
+  /* "extensions/cylimiter.pyx":30
  *         return self._limiter.get().limit(audio)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -1623,19 +1952,19 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_6reset(struct __pyx_o
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_8__reduce_cython__(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_10__reduce_cython__(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self) {
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_10__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1680,19 +2009,19 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_8__reduce_cython__(CY
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_10extensions_9cylimiter_7Limiter_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_10__setstate_cython__(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_10extensions_9cylimiter_7Limiter_12__setstate_cython__(((struct __pyx_obj_10extensions_9cylimiter_Limiter *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_12__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1942,11 +2271,12 @@ static void __pyx_tp_dealloc_10extensions_9cylimiter_Limiter(PyObject *o) {
 }
 
 static PyMethodDef __pyx_methods_10extensions_9cylimiter_Limiter[] = {
-  {"limit_inplace", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_3limit_inplace, METH_O, 0},
-  {"limit", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_5limit, METH_O, 0},
-  {"reset", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_7reset, METH_NOARGS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_9__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_11__setstate_cython__, METH_O, 0},
+  {"_validate_input", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_3_validate_input, METH_O, 0},
+  {"limit_inplace", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_5limit_inplace, METH_O, 0},
+  {"limit", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_7limit, METH_O, 0},
+  {"reset", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_9reset, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_11__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_10extensions_9cylimiter_7Limiter_13__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -2068,7 +2398,12 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_kp_u_Delay_has_to_be_an_integer_great, __pyx_k_Delay_has_to_be_an_integer_great, sizeof(__pyx_k_Delay_has_to_be_an_integer_great), 0, 1, 0, 0},
   {&__pyx_n_s_Limiter, __pyx_k_Limiter, sizeof(__pyx_k_Limiter), 0, 0, 1, 1},
+  {&__pyx_kp_u_Permitted_attack_value_range_is, __pyx_k_Permitted_attack_value_range_is, sizeof(__pyx_k_Permitted_attack_value_range_is), 0, 1, 0, 0},
+  {&__pyx_kp_u_Permitted_release_value_range_is, __pyx_k_Permitted_release_value_range_is, sizeof(__pyx_k_Permitted_release_value_range_is), 0, 1, 0, 0},
+  {&__pyx_kp_u_Permitted_threshold_value_range, __pyx_k_Permitted_threshold_value_range, sizeof(__pyx_k_Permitted_threshold_value_range), 0, 1, 0, 0},
+  {&__pyx_kp_u_The_input_audio_array_has_to_be, __pyx_k_The_input_audio_array_has_to_be, sizeof(__pyx_k_The_input_audio_array_has_to_be), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_attack, __pyx_k_attack, sizeof(__pyx_k_attack), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
@@ -2076,6 +2411,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
+  {&__pyx_n_s_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
+  {&__pyx_n_u_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 1, 0, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
@@ -2086,6 +2423,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_threshold, __pyx_k_threshold, sizeof(__pyx_k_threshold), 0, 0, 1, 1},
+  {&__pyx_n_s_validate_input, __pyx_k_validate_input, sizeof(__pyx_k_validate_input), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
@@ -2127,6 +2465,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(1, 1, __pyx_L1_error);
+  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_40 = PyInt_FromLong(40); if (unlikely(!__pyx_int_40)) __PYX_ERR(1, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -2643,6 +2983,246 @@ static void __Pyx_RaiseArgtupleInvalid(
                  (num_expected == 1) ? "" : "s", num_found);
 }
 
+/* GetAttr */
+static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
+#if CYTHON_USE_TYPE_SLOTS
+#if PY_MAJOR_VERSION >= 3
+    if (likely(PyUnicode_Check(n)))
+#else
+    if (likely(PyString_Check(n)))
+#endif
+        return __Pyx_PyObject_GetAttrStr(o, n);
+#endif
+    return PyObject_GetAttr(o, n);
+}
+
+/* HasAttr */
+static CYTHON_INLINE int __Pyx_HasAttr(PyObject *o, PyObject *n) {
+    PyObject *r;
+    if (unlikely(!__Pyx_PyBaseString_Check(n))) {
+        PyErr_SetString(PyExc_TypeError,
+                        "hasattr(): attribute name must be string");
+        return -1;
+    }
+    r = __Pyx_GetAttr(o, n);
+    if (unlikely(!r)) {
+        PyErr_Clear();
+        return 0;
+    } else {
+        Py_DECREF(r);
+        return 1;
+    }
+}
+
+/* PyIntCompare */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED long inplace) {
+    if (op1 == op2) {
+        Py_RETURN_TRUE;
+    }
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long a = PyInt_AS_LONG(op1);
+        if (a == b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op1))) {
+        int unequal;
+        unsigned long uintval;
+        Py_ssize_t size = Py_SIZE(op1);
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        if (intval == 0) {
+            if (size == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+        } else if (intval < 0) {
+            if (size >= 0)
+                Py_RETURN_FALSE;
+            intval = -intval;
+            size = -size;
+        } else {
+            if (size <= 0)
+                Py_RETURN_FALSE;
+        }
+        uintval = (unsigned long) intval;
+#if PyLong_SHIFT * 4 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 4)) {
+            unequal = (size != 5) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[4] != ((uintval >> (4 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 3 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 3)) {
+            unequal = (size != 4) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 2 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 2)) {
+            unequal = (size != 3) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 1 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 1)) {
+            unequal = (size != 2) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+            unequal = (size != 1) || (((unsigned long) digits[0]) != (uintval & (unsigned long) PyLong_MASK));
+        if (unequal == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+        double a = PyFloat_AS_DOUBLE(op1);
+        if ((double)a == (double)b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+    }
+    return (
+        PyObject_RichCompare(op1, op2, Py_EQ));
+}
+
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
+}
+#endif
+
+/* PyFunctionFastCall */
+#if CYTHON_FAST_PYCALL
+static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
+                                               PyObject *globals) {
+    PyFrameObject *f;
+    PyThreadState *tstate = __Pyx_PyThreadState_Current;
+    PyObject **fastlocals;
+    Py_ssize_t i;
+    PyObject *result;
+    assert(globals != NULL);
+    /* XXX Perhaps we should create a specialized
+       PyFrame_New() that doesn't take locals, but does
+       take builtins without sanity checking them.
+       */
+    assert(tstate != NULL);
+    f = PyFrame_New(tstate, co, globals, NULL);
+    if (f == NULL) {
+        return NULL;
+    }
+    fastlocals = __Pyx_PyFrame_GetLocalsplus(f);
+    for (i = 0; i < na; i++) {
+        Py_INCREF(*args);
+        fastlocals[i] = *args++;
+    }
+    result = PyEval_EvalFrameEx(f,0);
+    ++tstate->recursion_depth;
+    Py_DECREF(f);
+    --tstate->recursion_depth;
+    return result;
+}
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs) {
+    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
+    PyObject *globals = PyFunction_GET_GLOBALS(func);
+    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
+    PyObject *closure;
+#if PY_MAJOR_VERSION >= 3
+    PyObject *kwdefs;
+#endif
+    PyObject *kwtuple, **k;
+    PyObject **d;
+    Py_ssize_t nd;
+    Py_ssize_t nk;
+    PyObject *result;
+    assert(kwargs == NULL || PyDict_Check(kwargs));
+    nk = kwargs ? PyDict_Size(kwargs) : 0;
+    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
+        return NULL;
+    }
+    if (
+#if PY_MAJOR_VERSION >= 3
+            co->co_kwonlyargcount == 0 &&
+#endif
+            likely(kwargs == NULL || nk == 0) &&
+            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
+        if (argdefs == NULL && co->co_argcount == nargs) {
+            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
+            goto done;
+        }
+        else if (nargs == 0 && argdefs != NULL
+                 && co->co_argcount == Py_SIZE(argdefs)) {
+            /* function called with no arguments, but all parameters have
+               a default value: use default values as arguments .*/
+            args = &PyTuple_GET_ITEM(argdefs, 0);
+            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
+            goto done;
+        }
+    }
+    if (kwargs != NULL) {
+        Py_ssize_t pos, i;
+        kwtuple = PyTuple_New(2 * nk);
+        if (kwtuple == NULL) {
+            result = NULL;
+            goto done;
+        }
+        k = &PyTuple_GET_ITEM(kwtuple, 0);
+        pos = i = 0;
+        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
+            Py_INCREF(k[i]);
+            Py_INCREF(k[i+1]);
+            i += 2;
+        }
+        nk = i / 2;
+    }
+    else {
+        kwtuple = NULL;
+        k = NULL;
+    }
+    closure = PyFunction_GET_CLOSURE(func);
+#if PY_MAJOR_VERSION >= 3
+    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
+#endif
+    if (argdefs != NULL) {
+        d = &PyTuple_GET_ITEM(argdefs, 0);
+        nd = Py_SIZE(argdefs);
+    }
+    else {
+        d = NULL;
+        nd = 0;
+    }
+#if PY_MAJOR_VERSION >= 3
+    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
+                               args, (int)nargs,
+                               k, (int)nk,
+                               d, (int)nd, kwdefs, closure);
+#else
+    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
+                               args, (int)nargs,
+                               k, (int)nk,
+                               d, (int)nd, closure);
+#endif
+    Py_XDECREF(kwtuple);
+done:
+    Py_LeaveRecursiveCall();
+    return result;
+}
+#endif
+#endif
+
 /* PyObjectCall */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
@@ -2659,6 +3239,95 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
             PyExc_SystemError,
             "NULL result without error in PyObject_Call");
     }
+    return result;
+}
+#endif
+
+/* PyObjectCall2Args */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    PyObject *args, *result = NULL;
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyFunction_FastCall(function, args, 2);
+    }
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    }
+    #endif
+    args = PyTuple_New(2);
+    if (unlikely(!args)) goto done;
+    Py_INCREF(arg1);
+    PyTuple_SET_ITEM(args, 0, arg1);
+    Py_INCREF(arg2);
+    PyTuple_SET_ITEM(args, 1, arg2);
+    Py_INCREF(function);
+    result = __Pyx_PyObject_Call(function, args, NULL);
+    Py_DECREF(args);
+    Py_DECREF(function);
+done:
+    return result;
+}
+
+/* PyObjectCallMethO */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
+    PyObject *self, *result;
+    PyCFunction cfunc;
+    cfunc = PyCFunction_GET_FUNCTION(func);
+    self = PyCFunction_GET_SELF(func);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = cfunc(self, arg);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+/* PyObjectCallOneArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_New(1);
+    if (unlikely(!args)) return NULL;
+    Py_INCREF(arg);
+    PyTuple_SET_ITEM(args, 0, arg);
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, &arg, 1);
+    }
+#endif
+    if (likely(PyCFunction_Check(func))) {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
+            return __Pyx_PyObject_CallMethO(func, arg);
+#if CYTHON_FAST_PYCCALL
+        } else if (__Pyx_PyFastCFunction_Check(func)) {
+            return __Pyx_PyCFunction_FastCall(func, &arg, 1);
+#endif
+        }
+    }
+    return __Pyx__PyObject_CallOneArg(func, arg);
+}
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_Pack(1, arg);
+    if (unlikely(!args)) return NULL;
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
     return result;
 }
 #endif
