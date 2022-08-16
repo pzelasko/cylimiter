@@ -1,4 +1,5 @@
 import random
+import pickle
 import pytest
 from cylimiter import Limiter
 
@@ -66,3 +67,21 @@ def test_limiter_reset():
     limiter.reset()
     audio_lim_reset = limiter.limit(audio)
     assert audio_lim == audio_lim_reset
+
+def test_limiter_pickle_works():
+    limiter_default = Limiter()
+    limiter = Limiter(attack=0.555, delay=1000, threshold=0.2, release=0.01)
+    data = pickle.dumps(limiter)
+    limiter_unpickled = pickle.loads(data)
+
+    audio = get_audio()
+    audio_lim = limiter.limit(audio)
+    assert audio != audio_lim
+    audio_lim_unpickled = limiter_unpickled.limit(audio)
+    assert audio != audio_lim_unpickled
+
+    audio_lim_default = limiter_default.limit(audio)
+    assert audio_lim != audio_lim_default
+    assert audio_lim_unpickled != audio_lim_default
+
+    assert audio_lim == audio_lim_unpickled

@@ -2,7 +2,7 @@
 from libcpp.memory cimport unique_ptr
 from libcpp.vector cimport vector
 
-from extensions.climiter cimport CLimiter
+from extensions.climiter cimport CLimiter, CLimiterState
 
 
 cdef class Limiter:
@@ -14,6 +14,16 @@ cdef class Limiter:
         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."
         assert isinstance(delay, int) and delay > 0, "Delay has to be an integer greater than zero."
         self._limiter.reset(new CLimiter(attack, release, delay, threshold))
+
+    def __setstate__(self, state: bytes) -> None:
+        self.__init__()
+        self._limiter.get().read_from_string(state)
+
+    def __getstate__(self) -> bytes:
+        return self.write_to_string()
+
+    def write_to_string(self) -> bytes:
+        return self._limiter.get().write_to_string()
 
     def _validate_input(self, audio):
         if hasattr(audio, "ndim"):
@@ -29,3 +39,7 @@ cdef class Limiter:
 
     def reset(self):
         return self._limiter.get().reset()
+
+
+def _create_default() -> Limiter:
+    return Limiter()

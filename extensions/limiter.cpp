@@ -1,6 +1,8 @@
 #include <cmath>
 #include <algorithm>
 #include <iterator>
+#include <sstream>
+#include <utility>
 
 #include "limiter.h"
 
@@ -36,7 +38,7 @@ void CLimiter::limit_inplace(vector<float> &audio) {
     }
 }
 
-std::vector<float> CLimiter::limit(const vector<float> &audio) {
+vector<float> CLimiter::limit(const vector<float> &audio) {
     vector<float> out;
     copy(begin(audio), end(audio), back_inserter(out));
     limit_inplace(out);
@@ -51,4 +53,31 @@ void CLimiter::reset() {
     for (unsigned long i = 0; i < delay_line_.size(); ++i) {
         delay_line_[i] = 0.0f;
     }
+}
+
+void CLimiter::read_from_string(const string &data) {
+    istringstream str{data};
+    str >> attack_;
+    str >> release_;
+    str >> delay_;
+    str >> threshold_;
+    str >> delay_index_;
+    str >> envelope_;
+    str >> gain_;
+    float sample;
+    delay_line_.empty();
+    while(str >> sample) {
+        delay_line_.push_back(sample);
+    }
+}
+
+string CLimiter::write_to_string() const {
+    ostringstream str;
+    const auto s = " ";
+    str << attack_ << s << release_ << s << delay_ << s << threshold_ << s
+        << delay_index_ << s << envelope_ << s << gain_ << s;
+    for (const auto item : delay_line_) {
+        str << item << s;
+    }
+    return str.str();
 }
