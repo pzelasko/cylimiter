@@ -36,7 +36,11 @@ def test_limiter_nondefault_args_validation():
         limiter = Limiter(release=1.1)
 
     with pytest.raises(AssertionError):
-        limiter = Limiter(threshold=1.1)
+        limiter = Limiter(threshold=-0.5)
+
+    # does not raise when above 1 to support other audio effects 
+    # in effect chains that may drive the signal above 1.0 magnitude
+    limiter = Limiter(threshold=1.1)
 
     with pytest.raises(AssertionError):
         limiter = Limiter(delay=0)
