@@ -30,11 +30,13 @@ def no_cythonize(extensions, **_ignore):
 
 COMPILE_ARGS = [
     "-std=c++11",
-    "-Wno-register",
-    "-Wno-unused-function",
-    "-Wno-unused-local-typedefs",
     "-funsigned-char",
 ]
+if os.name != "nt":
+    COMPILE_ARGS.append("-Wno-register")
+    COMPILE_ARGS.append("-Wno-unused-function")
+    COMPILE_ARGS.append("-Wno-unused-local-typedefs")
+
 if platform.startswith("darwin"):
     COMPILE_ARGS.append("-stdlib=libc++")
     COMPILE_ARGS.append("-mmacosx-version-min=10.7")
