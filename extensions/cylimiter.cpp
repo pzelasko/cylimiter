@@ -1387,16 +1387,15 @@ static const char __pyx_k_write_to_string[] = "write_to_string";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_extensions_cylimiter[] = "extensions.cylimiter";
 static const char __pyx_k_Permitted_attack_value_range_is[] = "Permitted attack value range is (0 - 1).";
-static const char __pyx_k_Permitted_threshold_value_range[] = "Permitted threshold value range is (0 - 1).";
 static const char __pyx_k_The_input_audio_array_has_to_be[] = "The input audio array has to be single-dimensional (only mono audio is supported).";
 static const char __pyx_k_Delay_has_to_be_an_integer_great[] = "Delay has to be an integer greater than zero.";
 static const char __pyx_k_Permitted_release_value_range_is[] = "Permitted release value range is (0 - 1).";
 static const char __pyx_k_self__limiter_cannot_be_converte[] = "self._limiter cannot be converted to a Python object for pickling";
+static const char __pyx_k_threshold_has_to_be_a_float_grea[] = "threshold has to be a float greater than zero.";
 static PyObject *__pyx_kp_u_Delay_has_to_be_an_integer_great;
 static PyObject *__pyx_n_s_Limiter;
 static PyObject *__pyx_kp_u_Permitted_attack_value_range_is;
 static PyObject *__pyx_kp_u_Permitted_release_value_range_is;
-static PyObject *__pyx_kp_u_Permitted_threshold_value_range;
 static PyObject *__pyx_kp_u_The_input_audio_array_has_to_be;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_attack;
@@ -1421,6 +1420,7 @@ static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_threshold;
+static PyObject *__pyx_kp_u_threshold_has_to_be_a_float_grea;
 static PyObject *__pyx_n_s_validate_input;
 static PyObject *__pyx_n_s_write_to_string;
 static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, double __pyx_v_attack, double __pyx_v_release, PyObject *__pyx_v_delay, double __pyx_v_threshold); /* proto */
@@ -1576,7 +1576,7 @@ static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_1
  *     def __init__(self, attack: float = 0.9, release: float = 0.9995, delay: int = 40, threshold: float = 0.95):
  *         assert 0 < attack < 1, "Permitted attack value range is (0 - 1)."             # <<<<<<<<<<<<<<
  *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."
- *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."
+ *         assert 0 < threshold, "threshold has to be a float greater than zero."
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
@@ -1595,7 +1595,7 @@ static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_1
  *     def __init__(self, attack: float = 0.9, release: float = 0.9995, delay: int = 40, threshold: float = 0.95):
  *         assert 0 < attack < 1, "Permitted attack value range is (0 - 1)."
  *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."             # <<<<<<<<<<<<<<
- *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."
+ *         assert 0 < threshold, "threshold has to be a float greater than zero."
  *         assert isinstance(delay, int) and delay > 0, "Delay has to be an integer greater than zero."
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
@@ -1614,18 +1614,14 @@ static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_1
   /* "extensions/cylimiter.pyx":14
  *         assert 0 < attack < 1, "Permitted attack value range is (0 - 1)."
  *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."
- *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."             # <<<<<<<<<<<<<<
+ *         assert 0 < threshold, "threshold has to be a float greater than zero."             # <<<<<<<<<<<<<<
  *         assert isinstance(delay, int) and delay > 0, "Delay has to be an integer greater than zero."
  *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_1 = (0.0 < __pyx_v_threshold);
-    if (__pyx_t_1) {
-      __pyx_t_1 = (__pyx_v_threshold < 1.0);
-    }
-    if (unlikely(!(__pyx_t_1 != 0))) {
-      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_Permitted_threshold_value_range);
+    if (unlikely(!((0.0 < __pyx_v_threshold) != 0))) {
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_threshold_has_to_be_a_float_grea);
       __PYX_ERR(1, 14, __pyx_L1_error)
     }
   }
@@ -1633,7 +1629,7 @@ static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_1
 
   /* "extensions/cylimiter.pyx":15
  *         assert 0 < release < 1, "Permitted release value range is (0 - 1)."
- *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."
+ *         assert 0 < threshold, "threshold has to be a float greater than zero."
  *         assert isinstance(delay, int) and delay > 0, "Delay has to be an integer greater than zero."             # <<<<<<<<<<<<<<
  *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))
  * 
@@ -1660,7 +1656,7 @@ static int __pyx_pf_10extensions_9cylimiter_7Limiter___init__(struct __pyx_obj_1
   #endif
 
   /* "extensions/cylimiter.pyx":16
- *         assert 0 < threshold < 1, "Permitted threshold value range is (0 - 1)."
+ *         assert 0 < threshold, "threshold has to be a float greater than zero."
  *         assert isinstance(delay, int) and delay > 0, "Delay has to be an integer greater than zero."
  *         self._limiter.reset(new CLimiter(attack, release, delay, threshold))             # <<<<<<<<<<<<<<
  * 
@@ -3117,7 +3113,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Limiter, __pyx_k_Limiter, sizeof(__pyx_k_Limiter), 0, 0, 1, 1},
   {&__pyx_kp_u_Permitted_attack_value_range_is, __pyx_k_Permitted_attack_value_range_is, sizeof(__pyx_k_Permitted_attack_value_range_is), 0, 1, 0, 0},
   {&__pyx_kp_u_Permitted_release_value_range_is, __pyx_k_Permitted_release_value_range_is, sizeof(__pyx_k_Permitted_release_value_range_is), 0, 1, 0, 0},
-  {&__pyx_kp_u_Permitted_threshold_value_range, __pyx_k_Permitted_threshold_value_range, sizeof(__pyx_k_Permitted_threshold_value_range), 0, 1, 0, 0},
   {&__pyx_kp_u_The_input_audio_array_has_to_be, __pyx_k_The_input_audio_array_has_to_be, sizeof(__pyx_k_The_input_audio_array_has_to_be), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_attack, __pyx_k_attack, sizeof(__pyx_k_attack), 0, 0, 1, 1},
@@ -3142,6 +3137,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_threshold, __pyx_k_threshold, sizeof(__pyx_k_threshold), 0, 0, 1, 1},
+  {&__pyx_kp_u_threshold_has_to_be_a_float_grea, __pyx_k_threshold_has_to_be_a_float_grea, sizeof(__pyx_k_threshold_has_to_be_a_float_grea), 0, 1, 0, 0},
   {&__pyx_n_s_validate_input, __pyx_k_validate_input, sizeof(__pyx_k_validate_input), 0, 0, 1, 1},
   {&__pyx_n_s_write_to_string, __pyx_k_write_to_string, sizeof(__pyx_k_write_to_string), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
