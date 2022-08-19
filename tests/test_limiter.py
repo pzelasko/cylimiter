@@ -1,4 +1,3 @@
-import random
 import pickle
 import pytest
 import numpy as np
@@ -16,6 +15,7 @@ def test_limiter():
     limiter = Limiter()
     audio_lim = limiter.limit(audio)
     assert (audio_lim != audio).any()
+    np.testing.assert_array_less(audio_lim, 1.0)
 
 
 def test_limiter_nondefault_args():
@@ -39,7 +39,7 @@ def test_limiter_nondefault_args_validation():
     with pytest.raises(AssertionError):
         limiter = Limiter(threshold=-0.5)
 
-    # does not raise when above 1 to support other audio effects 
+    # does not raise when above 1 to support other audio effects
     # in effect chains that may drive the signal above 1.0 magnitude
     limiter = Limiter(threshold=1.1)
 
@@ -56,6 +56,7 @@ def test_limiter_inplace_fails_with_python_list():
     with pytest.raises(AssertionError):
         limiter.limit_inplace([1.0] * 22050)
 
+
 def test_limiter_inplace_fails_with_float64():
     limiter = Limiter()
 
@@ -63,7 +64,6 @@ def test_limiter_inplace_fails_with_float64():
 
     with pytest.raises(AssertionError):
         limiter.limit_inplace(audio)
-
 
 
 def test_limiter_inplace():
@@ -79,6 +79,7 @@ def test_limiter_inplace():
         limiter.limit_inplace(chunk)
         # ... do sth with chunk
         assert (chunk != chunk_cpy).any()
+        np.testing.assert_array_less(chunk, 1.0)
 
 
 def test_limiter_reset():
