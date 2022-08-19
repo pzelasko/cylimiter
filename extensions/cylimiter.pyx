@@ -1,8 +1,10 @@
 #cython: language_level=3
-from libcpp.memory cimport unique_ptr
-from libcpp.vector cimport vector
+import warnings
 
-from extensions.climiter cimport CLimiter, CLimiterState
+from libcpp.memory cimport unique_ptr
+
+from extensions.climiter cimport CLimiter
+import numpy as np
 
 
 cdef class Limiter:
@@ -25,21 +27,19 @@ cdef class Limiter:
     def write_to_string(self) -> bytes:
         return self._limiter.get().write_to_string()
 
-    def _validate_input(self, audio):
-        if hasattr(audio, "ndim"):
-            assert audio.ndim == 1, "The input audio array has to be single-dimensional (only mono audio is supported)."
+    def limit_inplace(self, audio: np.ndarray) -> np.ndarray:
+        assert isinstance(audio, np.ndarray), "For in-place limiter, we only support Numpy arrays. Either convert your input to a 1D Numpy array, or use the non-in-place operation ('limiter.limit(arr)')."
+        assert audio.dtype == np.float32, "We only support np.float32 dtype for in-place operations."
+        assert audio.ndim == 1, "The input audio array has to be single-dimensional (only mono audio is supported)."
+        assert audio.flags['C_CONTIGUOUS'], "The input array has to be contiguous (you can use np.ascontiguousarray)."
 
-    def limit_inplace(self, audio):
-        self._validate_input(audio)
-        self._limiter.get().limit_inplace(audio)
+        cdef float[:] audio_memview = audio
+        self._limiter.get().limit_inplace(&audio_memview[0], audio_memview.shape[0])
 
-    def limit(self, audio):
-        self._validate_input(audio)
-        return self._limiter.get().limit(audio)
+    def limit(self, audio) -> np.ndarray:
+        audio_arr = np.copy(np.ascontiguousarray(audio, dtype=np.float32))
+        self.limit_inplace(audio_arr)
+        return audio_arr
 
-    def reset(self):
+    def reset(self) -> None:
         return self._limiter.get().reset()
-
-
-def _create_default() -> Limiter:
-    return Limiter()

@@ -3,5 +3,5 @@
 set -eou pipefail
 
 pushd extensions; cython -3 --cplus *.pyx; popd
-pip uninstall -y cylimiter && pip install .
+pip uninstall -y cylimiter && pip install '.[dev]'
 pytest tests
