@@ -16,8 +16,8 @@ CLimiter::CLimiter(float attack, float release, int delay, float threshold)
     reset();
 }
 
-void CLimiter::limit_inplace(vector<float> &audio) {
-    for (unsigned long idx = 0; idx < audio.size(); ++idx) {
+void CLimiter::limit_inplace(float * const audio, size_t num_samples) {
+    for (size_t idx = 0; idx < num_samples; ++idx) {
         const auto sample = audio[idx];
         delay_line_[delay_index_] = sample;
         delay_index_ = (delay_index_ + 1) % delay_;
@@ -38,10 +38,10 @@ void CLimiter::limit_inplace(vector<float> &audio) {
     }
 }
 
-vector<float> CLimiter::limit(const vector<float> &audio) {
+vector<float> CLimiter::limit(float const * const audio, size_t num_samples) {
     vector<float> out;
-    copy(begin(audio), end(audio), back_inserter(out));
-    limit_inplace(out);
+    copy(audio, audio + num_samples, back_inserter(out));
+    limit_inplace(out.data(), out.size());
     return out;
 }
 

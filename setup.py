@@ -61,7 +61,7 @@ else:
     extensions = no_cythonize(extensions)
 
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 
 
 this_directory = path.abspath(path.dirname(__file__))
@@ -94,6 +94,7 @@ def main() -> None:
             "Topic :: Scientific/Engineering :: Mathematics",
         ],
         license="Apache 2.0",
+        install_requires=['numpy'],
         extras_require={
             'dev': ['pytest', 'Cython']
         },

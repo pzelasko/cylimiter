@@ -1,14 +1,13 @@
 import random
 import pickle
 import pytest
+import numpy as np
 from cylimiter import Limiter
 
 
 def get_audio():
-    ret = []
-    for i in range(44100):
-        ret.append(random.random())
-    return ret
+    # 1s of 44.1kHz audio in fp32, centered on zero, with dynamic range [-5, 5]
+    return ((np.random.rand(44100) - 0.5) * 10).astype(np.float32)
 
 
 def test_limiter():
@@ -16,6 +15,7 @@ def test_limiter():
     audio = get_audio()
     limiter = Limiter()
     audio_lim = limiter.limit(audio)
+    assert (audio_lim != audio).any()
 
 
 def test_limiter_nondefault_args():
@@ -23,6 +23,7 @@ def test_limiter_nondefault_args():
     audio = get_audio()
     limiter = Limiter(attack=0.5, release=0.9, delay=100, threshold=0.9)
     audio_lim = limiter.limit(audio)
+    assert (audio_lim != audio).any()
 
 
 def test_limiter_nondefault_args_validation():
@@ -46,16 +47,38 @@ def test_limiter_nondefault_args_validation():
         limiter = Limiter(delay=0)
 
 
+def test_limiter_inplace_fails_with_python_list():
+    limiter = Limiter()
+
+    # does not raise
+    limiter.limit([1.0] * 22050)
+
+    with pytest.raises(AssertionError):
+        limiter.limit_inplace([1.0] * 22050)
+
+def test_limiter_inplace_fails_with_float64():
+    limiter = Limiter()
+
+    audio = get_audio().astype(np.float64)
+
+    with pytest.raises(AssertionError):
+        limiter.limit_inplace(audio)
+
+
+
 def test_limiter_inplace():
     limiter = Limiter()
     chunk_size = 1200  # for streaming processing
 
     # Example of applying limiter in-place (more efficient)
     audio = get_audio()
-    for i in range(0, len(audio), chunk_size):
-        chunk = audio[i * chunk_size : (i + 1) * chunk_size]
+    print(len(audio))
+    for offset in range(0, len(audio), chunk_size):
+        chunk = audio[offset : offset + chunk_size]
+        chunk_cpy = np.copy(chunk)
         limiter.limit_inplace(chunk)
         # ... do sth with chunk
+        assert (chunk != chunk_cpy).any()
 
 
 def test_limiter_reset():
@@ -66,11 +89,12 @@ def test_limiter_reset():
     audio_lim2 = limiter.limit(audio)
     assert (
         audio_lim != audio_lim2
-    )  # some state was accumulated in limiter so the results is different
+    ).any()  # some state was accumulated in limiter so the results is different
 
     limiter.reset()
     audio_lim_reset = limiter.limit(audio)
-    assert audio_lim == audio_lim_reset
+    np.testing.assert_allclose(audio_lim, audio_lim_reset)
+
 
 def test_limiter_pickle_works():
     limiter_default = Limiter()
@@ -80,12 +104,12 @@ def test_limiter_pickle_works():
 
     audio = get_audio()
     audio_lim = limiter.limit(audio)
-    assert audio != audio_lim
+    assert (audio != audio_lim).any()
     audio_lim_unpickled = limiter_unpickled.limit(audio)
-    assert audio != audio_lim_unpickled
+    assert (audio != audio_lim_unpickled).any()
 
     audio_lim_default = limiter_default.limit(audio)
-    assert audio_lim != audio_lim_default
-    assert audio_lim_unpickled != audio_lim_default
+    assert (audio_lim != audio_lim_default).any()
+    assert (audio_lim_unpickled != audio_lim_default).any()
 
-    assert audio_lim == audio_lim_unpickled
+    np.testing.assert_allclose(audio_lim, audio_lim_unpickled)
