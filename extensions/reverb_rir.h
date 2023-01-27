@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include <vector>
+#include <deque>
 #include <string>
 
 
-class CLimiter {
+class ReverbRIR {
     // We are maintaining a C-style API with pair of pointer + size
     // to be able to avoid memory copies from python/numpy/cython to C++
     // and provide an inplace modification API for numpy arrays.
     public:
-        CLimiter(float attack, float release, int delay, float threshold);
+        ReverbRIR();
+
+        ReverbRIR(const float * const rir, const std::size_t num_samples);
 
         void apply_inplace(float * const audio, const std::size_t num_samples);
         std::vector<float> apply(float const * const audio, const std::size_t num_samples);
@@ -19,15 +22,9 @@ class CLimiter {
 
     // Mutable state
     private:
-        std::vector<float> delay_line_;
-        int delay_index_;
-        float envelope_;
-        float gain_;
+        std::deque<float> buffer_;
 
     // Settings
     private:
-        float attack_;
-        float release_;
-        int delay_;
-        float threshold_;
+        std::vector<float> rir_;
 };

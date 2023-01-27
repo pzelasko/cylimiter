@@ -12,8 +12,27 @@ cdef extern from "limiter.h" nogil:
 
         string write_to_string() const
 
-        void limit_inplace(float * const, size_t)
+        void apply_inplace(float * const, size_t)
 
-        vector[float] limit(const float * const, size_t)
+        vector[float] apply(const float * const, size_t)
+
+        void reset()
+
+
+cdef extern from "reverb_rir.h" nogil:
+
+    cdef cppclass ReverbRIR:
+
+        ReverbRIR()
+
+        ReverbRIR(const float * const, const size_t)
+
+        ReverbRIR read_from_string(string data)
+
+        string write_to_string() const
+
+        void apply_inplace(float * const, const size_t)
+
+        vector[float] apply(const float * const, const size_t)
 
         void reset()
