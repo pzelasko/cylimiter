@@ -31,8 +31,6 @@ def no_cythonize(extensions, **_ignore):
 COMPILE_ARGS = [
     "-std=c++11",
     "-funsigned-char",
-    "-O0",
-    "-g",
 ]
 if os.name != "nt":
     COMPILE_ARGS.append("-Wno-register")
