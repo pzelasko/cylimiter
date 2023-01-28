@@ -47,7 +47,7 @@ cylimiter = Extension(
     language="c++",
     extra_compile_args=COMPILE_ARGS,
     include_dirs=[os.path.dirname(os.path.abspath(__file__)) + "/extensions"],
-    sources=["extensions/cylimiter.pyx", "extensions/limiter.cpp"],
+    sources=["extensions/cylimiter.pyx", "extensions/limiter.cpp", "extensions/reverb_rir.cpp"],
 )
 extensions = [cylimiter]
 
@@ -61,7 +61,7 @@ else:
     extensions = no_cythonize(extensions)
 
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 
 this_directory = path.abspath(path.dirname(__file__))
