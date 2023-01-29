@@ -1991,6 +1991,7 @@ static const char __pyx_k_c[] = "c";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_arr[] = "arr";
+static const char __pyx_k_mix[] = "mix";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_rir[] = "rir";
@@ -2088,6 +2089,7 @@ static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate 
 static const char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
 static const char __pyx_k_For_in_place_operations_we_only[] = "For in-place operations, we only support Numpy arrays. Either convert your input to a 1D Numpy array, or use the non-in-place operation ('effect.apply(arr)').";
 static const char __pyx_k_Permitted_attack_value_range_is[] = "Permitted attack value range is (0 - 1).";
+static const char __pyx_k_Argument_mix_must_be_between_0_a[] = "Argument 'mix' must be between 0 and 1.";
 static const char __pyx_k_Buffer_view_does_not_expose_stri[] = "Buffer view does not expose strides";
 static const char __pyx_k_Can_only_create_a_buffer_that_is[] = "Can only create a buffer that is contiguous in memory.";
 static const char __pyx_k_Cannot_assign_to_read_only_memor[] = "Cannot assign to read-only memoryview";
@@ -2109,6 +2111,7 @@ static const char __pyx_k_self__ptr_cannot_be_converted_to[] = "self._ptr cannot
 static const char __pyx_k_threshold_has_to_be_a_float_grea[] = "threshold has to be a float greater than zero.";
 static const char __pyx_k_unable_to_allocate_shape_and_str[] = "unable to allocate shape and strides.";
 static PyObject *__pyx_n_s_ASCII;
+static PyObject *__pyx_kp_u_Argument_mix_must_be_between_0_a;
 static PyObject *__pyx_kp_s_Buffer_view_does_not_expose_stri;
 static PyObject *__pyx_n_u_C_CONTIGUOUS;
 static PyObject *__pyx_kp_s_Can_only_create_a_buffer_that_is;
@@ -2183,6 +2186,7 @@ static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_memview;
+static PyObject *__pyx_n_s_mix;
 static PyObject *__pyx_n_s_mode;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
@@ -2243,8 +2247,8 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_14limit(struct __pyx_
 static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_16reset(struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_18__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_20__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10extensions_9cylimiter_Limiter *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self, PyObject *__pyx_v_rir); /* proto */
-static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self, PyObject *__pyx_v_rir); /* proto */
+static int __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self, PyObject *__pyx_v_rir, double __pyx_v_mix); /* proto */
+static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self, PyObject *__pyx_v_rir, double __pyx_v_mix); /* proto */
 static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_4__setstate__(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self, PyObject *__pyx_v_state); /* proto */
 static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_6__getstate__(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_8write_to_string(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self); /* proto */
@@ -3447,15 +3451,16 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_7Limiter_20__setstate_cython__
 /* "extensions/cylimiter.pyx":55
  *     cdef unique_ptr[CReverbRIR] _ptr
  * 
- *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None):             # <<<<<<<<<<<<<<
+ *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None, mix: float = 1.0):             # <<<<<<<<<<<<<<
+ *         assert 0.0 <= mix <= 1.0, "Argument 'mix' must be between 0 and 1."
  *         if rir is None:
- *             self._ptr.reset(new CReverbRIR())
  */
 
 /* Python wrapper */
 static int __pyx_pw_10extensions_9cylimiter_9ReverbRIR_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_10extensions_9cylimiter_9ReverbRIR_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_rir = 0;
+  double __pyx_v_mix;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3463,13 +3468,15 @@ static int __pyx_pw_10extensions_9cylimiter_9ReverbRIR_1__init__(PyObject *__pyx
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rir,0};
-    PyObject* values[1] = {0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rir,&__pyx_n_s_mix,0};
+    PyObject* values[2] = {0,0};
     values[0] = ((PyObject *)Py_None);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         CYTHON_FALLTHROUGH;
         case  0: break;
@@ -3482,12 +3489,20 @@ static int __pyx_pw_10extensions_9cylimiter_9ReverbRIR_1__init__(PyObject *__pyx
           PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rir);
           if (value) { values[0] = value; kw_args--; }
         }
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mix);
+          if (value) { values[1] = value; kw_args--; }
+        }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 55, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         CYTHON_FALLTHROUGH;
         case  0: break;
@@ -3495,23 +3510,28 @@ static int __pyx_pw_10extensions_9cylimiter_9ReverbRIR_1__init__(PyObject *__pyx
       }
     }
     __pyx_v_rir = values[0];
+    if (values[1]) {
+      __pyx_v_mix = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_mix == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 55, __pyx_L3_error)
+    } else {
+      __pyx_v_mix = ((double)1.0);
+    }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 55, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 55, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("extensions.cylimiter.ReverbRIR.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(((struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *)__pyx_v_self), __pyx_v_rir);
+  __pyx_r = __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(((struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *)__pyx_v_self), __pyx_v_rir, __pyx_v_mix);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self, PyObject *__pyx_v_rir) {
+static int __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self, PyObject *__pyx_v_rir, double __pyx_v_mix) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -3519,6 +3539,9 @@ static int __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(struct __pyx_obj
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3526,58 +3549,112 @@ static int __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(struct __pyx_obj
 
   /* "extensions/cylimiter.pyx":56
  * 
- *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None):
+ *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None, mix: float = 1.0):
+ *         assert 0.0 <= mix <= 1.0, "Argument 'mix' must be between 0 and 1."             # <<<<<<<<<<<<<<
+ *         if rir is None:
+ *             self._ptr.reset(new CReverbRIR(mix))
+ */
+  #ifndef CYTHON_WITHOUT_ASSERTIONS
+  if (unlikely(!Py_OptimizeFlag)) {
+    __pyx_t_1 = (0.0 <= __pyx_v_mix);
+    if (__pyx_t_1) {
+      __pyx_t_1 = (__pyx_v_mix <= 1.0);
+    }
+    if (unlikely(!(__pyx_t_1 != 0))) {
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_Argument_mix_must_be_between_0_a);
+      __PYX_ERR(1, 56, __pyx_L1_error)
+    }
+  }
+  #endif
+
+  /* "extensions/cylimiter.pyx":57
+ *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None, mix: float = 1.0):
+ *         assert 0.0 <= mix <= 1.0, "Argument 'mix' must be between 0 and 1."
  *         if rir is None:             # <<<<<<<<<<<<<<
- *             self._ptr.reset(new CReverbRIR())
+ *             self._ptr.reset(new CReverbRIR(mix))
  *         else:
  */
   __pyx_t_1 = (__pyx_v_rir == Py_None);
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "extensions/cylimiter.pyx":57
- *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None):
+    /* "extensions/cylimiter.pyx":58
+ *         assert 0.0 <= mix <= 1.0, "Argument 'mix' must be between 0 and 1."
  *         if rir is None:
- *             self._ptr.reset(new CReverbRIR())             # <<<<<<<<<<<<<<
+ *             self._ptr.reset(new CReverbRIR(mix))             # <<<<<<<<<<<<<<
  *         else:
- *             self._init_from_rir(rir)
+ *             self._init_from_rir(rir, mix)
  */
-    __pyx_v_self->_ptr.reset(new ReverbRIR());
+    __pyx_v_self->_ptr.reset(new ReverbRIR(__pyx_v_mix));
 
-    /* "extensions/cylimiter.pyx":56
- * 
- *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None):
+    /* "extensions/cylimiter.pyx":57
+ *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None, mix: float = 1.0):
+ *         assert 0.0 <= mix <= 1.0, "Argument 'mix' must be between 0 and 1."
  *         if rir is None:             # <<<<<<<<<<<<<<
- *             self._ptr.reset(new CReverbRIR())
+ *             self._ptr.reset(new CReverbRIR(mix))
  *         else:
  */
     goto __pyx_L3;
   }
 
-  /* "extensions/cylimiter.pyx":59
- *             self._ptr.reset(new CReverbRIR())
+  /* "extensions/cylimiter.pyx":60
+ *             self._ptr.reset(new CReverbRIR(mix))
  *         else:
- *             self._init_from_rir(rir)             # <<<<<<<<<<<<<<
+ *             self._init_from_rir(rir, mix)             # <<<<<<<<<<<<<<
  * 
- *     def _init_from_rir(self, rir):
+ *     def _init_from_rir(self, rir, mix: float):
  */
   /*else*/ {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_from_rir); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 59, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_from_rir); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = NULL;
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mix); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 60, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = NULL;
+    __pyx_t_7 = 0;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-      if (likely(__pyx_t_5)) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_6)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_4, function);
+        __pyx_t_7 = 1;
       }
     }
-    __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_rir) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_rir);
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 59, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_rir, __pyx_t_5};
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 60, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_rir, __pyx_t_5};
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 60, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 60, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      if (__pyx_t_6) {
+        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      }
+      __Pyx_INCREF(__pyx_v_rir);
+      __Pyx_GIVEREF(__pyx_v_rir);
+      PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_v_rir);
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_5);
+      __pyx_t_5 = 0;
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 60, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
@@ -3586,9 +3663,9 @@ static int __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(struct __pyx_obj
   /* "extensions/cylimiter.pyx":55
  *     cdef unique_ptr[CReverbRIR] _ptr
  * 
- *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None):             # <<<<<<<<<<<<<<
+ *     def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None, mix: float = 1.0):             # <<<<<<<<<<<<<<
+ *         assert 0.0 <= mix <= 1.0, "Argument 'mix' must be between 0 and 1."
  *         if rir is None:
- *             self._ptr.reset(new CReverbRIR())
  */
 
   /* function exit code */
@@ -3598,6 +3675,8 @@ static int __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(struct __pyx_obj
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("extensions.cylimiter.ReverbRIR.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
@@ -3605,28 +3684,79 @@ static int __pyx_pf_10extensions_9cylimiter_9ReverbRIR___init__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":61
- *             self._init_from_rir(rir)
+/* "extensions/cylimiter.pyx":62
+ *             self._init_from_rir(rir, mix)
  * 
- *     def _init_from_rir(self, rir):             # <<<<<<<<<<<<<<
+ *     def _init_from_rir(self, rir, mix: float):             # <<<<<<<<<<<<<<
  *         # There will be two copies total, but it shouldn't be too bad...
  *         rir = np.copy(np.ascontiguousarray(rir, dtype=np.float32))
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10extensions_9cylimiter_9ReverbRIR_3_init_from_rir(PyObject *__pyx_v_self, PyObject *__pyx_v_rir); /*proto*/
-static PyObject *__pyx_pw_10extensions_9cylimiter_9ReverbRIR_3_init_from_rir(PyObject *__pyx_v_self, PyObject *__pyx_v_rir) {
+static PyObject *__pyx_pw_10extensions_9cylimiter_9ReverbRIR_3_init_from_rir(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_10extensions_9cylimiter_9ReverbRIR_3_init_from_rir(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_rir = 0;
+  double __pyx_v_mix;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_init_from_rir (wrapper)", 0);
-  __pyx_r = __pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(((struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *)__pyx_v_self), ((PyObject *)__pyx_v_rir));
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rir,&__pyx_n_s_mix,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_rir)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mix)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("_init_from_rir", 1, 2, 2, 1); __PYX_ERR(1, 62, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_init_from_rir") < 0)) __PYX_ERR(1, 62, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_rir = values[0];
+    __pyx_v_mix = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_mix == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 62, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("_init_from_rir", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 62, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("extensions.cylimiter.ReverbRIR._init_from_rir", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(((struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *)__pyx_v_self), __pyx_v_rir, __pyx_v_mix);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self, PyObject *__pyx_v_rir) {
+static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *__pyx_v_self, PyObject *__pyx_v_rir, double __pyx_v_mix) {
   __Pyx_memviewslice __pyx_v_rir_memview = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3646,38 +3776,38 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(str
   __Pyx_RefNannySetupContext("_init_from_rir", 0);
   __Pyx_INCREF(__pyx_v_rir);
 
-  /* "extensions/cylimiter.pyx":63
- *     def _init_from_rir(self, rir):
+  /* "extensions/cylimiter.pyx":64
+ *     def _init_from_rir(self, rir, mix: float):
  *         # There will be two copies total, but it shouldn't be too bad...
  *         rir = np.copy(np.ascontiguousarray(rir, dtype=np.float32))             # <<<<<<<<<<<<<<
  *         cdef float[:] rir_memview = rir
- *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0]))
+ *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0], mix))
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_rir);
   __Pyx_GIVEREF(__pyx_v_rir);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_rir);
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(1, 63, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3695,28 +3825,28 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(str
   __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_7);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 63, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF_SET(__pyx_v_rir, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "extensions/cylimiter.pyx":64
+  /* "extensions/cylimiter.pyx":65
  *         # There will be two copies total, but it shouldn't be too bad...
  *         rir = np.copy(np.ascontiguousarray(rir, dtype=np.float32))
  *         cdef float[:] rir_memview = rir             # <<<<<<<<<<<<<<
- *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0]))
+ *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0], mix))
  * 
  */
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_ds_float(__pyx_v_rir, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 64, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_ds_float(__pyx_v_rir, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 65, __pyx_L1_error)
   __pyx_v_rir_memview = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "extensions/cylimiter.pyx":65
+  /* "extensions/cylimiter.pyx":66
  *         rir = np.copy(np.ascontiguousarray(rir, dtype=np.float32))
  *         cdef float[:] rir_memview = rir
- *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0]))             # <<<<<<<<<<<<<<
+ *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0], mix))             # <<<<<<<<<<<<<<
  * 
  *     def __setstate__(self, state: bytes) -> None:
  */
@@ -3728,14 +3858,14 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(str
   } else if (unlikely(__pyx_t_9 >= __pyx_v_rir_memview.shape[0])) __pyx_t_10 = 0;
   if (unlikely(__pyx_t_10 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_10);
-    __PYX_ERR(1, 65, __pyx_L1_error)
+    __PYX_ERR(1, 66, __pyx_L1_error)
   }
-  __pyx_v_self->_ptr.reset(new ReverbRIR((&(*((float *) ( /* dim=0 */ (__pyx_v_rir_memview.data + __pyx_t_9 * __pyx_v_rir_memview.strides[0]) )))), (__pyx_v_rir_memview.shape[0])));
+  __pyx_v_self->_ptr.reset(new ReverbRIR((&(*((float *) ( /* dim=0 */ (__pyx_v_rir_memview.data + __pyx_t_9 * __pyx_v_rir_memview.strides[0]) )))), (__pyx_v_rir_memview.shape[0]), __pyx_v_mix));
 
-  /* "extensions/cylimiter.pyx":61
- *             self._init_from_rir(rir)
+  /* "extensions/cylimiter.pyx":62
+ *             self._init_from_rir(rir, mix)
  * 
- *     def _init_from_rir(self, rir):             # <<<<<<<<<<<<<<
+ *     def _init_from_rir(self, rir, mix: float):             # <<<<<<<<<<<<<<
  *         # There will be two copies total, but it shouldn't be too bad...
  *         rir = np.copy(np.ascontiguousarray(rir, dtype=np.float32))
  */
@@ -3762,8 +3892,8 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_2_init_from_rir(str
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":67
- *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0]))
+/* "extensions/cylimiter.pyx":68
+ *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0], mix))
  * 
  *     def __setstate__(self, state: bytes) -> None:             # <<<<<<<<<<<<<<
  *         self.__init__()
@@ -3779,7 +3909,7 @@ static PyObject *__pyx_pw_10extensions_9cylimiter_9ReverbRIR_5__setstate__(PyObj
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), (&PyBytes_Type), 1, "state", 1))) __PYX_ERR(1, 67, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), (&PyBytes_Type), 1, "state", 1))) __PYX_ERR(1, 68, __pyx_L1_error)
   __pyx_r = __pyx_pf_10extensions_9cylimiter_9ReverbRIR_4__setstate__(((struct __pyx_obj_10extensions_9cylimiter_ReverbRIR *)__pyx_v_self), ((PyObject*)__pyx_v_state));
 
   /* function exit code */
@@ -3803,14 +3933,14 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_4__setstate__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate__", 0);
 
-  /* "extensions/cylimiter.pyx":68
+  /* "extensions/cylimiter.pyx":69
  * 
  *     def __setstate__(self, state: bytes) -> None:
  *         self.__init__()             # <<<<<<<<<<<<<<
  *         self._ptr.get().read_from_string(state)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 68, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3824,23 +3954,23 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_4__setstate__(struc
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 68, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "extensions/cylimiter.pyx":69
+  /* "extensions/cylimiter.pyx":70
  *     def __setstate__(self, state: bytes) -> None:
  *         self.__init__()
  *         self._ptr.get().read_from_string(state)             # <<<<<<<<<<<<<<
  * 
  *     def __getstate__(self) -> bytes:
  */
-  __pyx_t_4 = __pyx_convert_string_from_py_std__in_string(__pyx_v_state); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 69, __pyx_L1_error)
+  __pyx_t_4 = __pyx_convert_string_from_py_std__in_string(__pyx_v_state); if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 70, __pyx_L1_error)
   (void)(__pyx_v_self->_ptr.get()->read_from_string(__pyx_t_4));
 
-  /* "extensions/cylimiter.pyx":67
- *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0]))
+  /* "extensions/cylimiter.pyx":68
+ *         self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0], mix))
  * 
  *     def __setstate__(self, state: bytes) -> None:             # <<<<<<<<<<<<<<
  *         self.__init__()
@@ -3862,7 +3992,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_4__setstate__(struc
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":71
+/* "extensions/cylimiter.pyx":72
  *         self._ptr.get().read_from_string(state)
  * 
  *     def __getstate__(self) -> bytes:             # <<<<<<<<<<<<<<
@@ -3894,7 +4024,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_6__getstate__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getstate__", 0);
 
-  /* "extensions/cylimiter.pyx":72
+  /* "extensions/cylimiter.pyx":73
  * 
  *     def __getstate__(self) -> bytes:
  *         return self.write_to_string()             # <<<<<<<<<<<<<<
@@ -3902,7 +4032,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_6__getstate__(struc
  *     def write_to_string(self) -> bytes:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_write_to_string); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 72, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_write_to_string); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3916,15 +4046,15 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_6__getstate__(struc
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 72, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(PyBytes_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(1, 72, __pyx_L1_error)
+  if (!(likely(PyBytes_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(1, 73, __pyx_L1_error)
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "extensions/cylimiter.pyx":71
+  /* "extensions/cylimiter.pyx":72
  *         self._ptr.get().read_from_string(state)
  * 
  *     def __getstate__(self) -> bytes:             # <<<<<<<<<<<<<<
@@ -3945,7 +4075,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_6__getstate__(struc
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":74
+/* "extensions/cylimiter.pyx":75
  *         return self.write_to_string()
  * 
  *     def write_to_string(self) -> bytes:             # <<<<<<<<<<<<<<
@@ -3975,7 +4105,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_8write_to_string(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("write_to_string", 0);
 
-  /* "extensions/cylimiter.pyx":75
+  /* "extensions/cylimiter.pyx":76
  * 
  *     def write_to_string(self) -> bytes:
  *         return self._ptr.get().write_to_string()             # <<<<<<<<<<<<<<
@@ -3983,13 +4113,13 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_8write_to_string(st
  *     def apply_inplace(self, audio: np.ndarray) -> None:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_self->_ptr.get()->write_to_string()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 75, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_PyBytes_string_to_py_std__in_string(__pyx_v_self->_ptr.get()->write_to_string()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "extensions/cylimiter.pyx":74
+  /* "extensions/cylimiter.pyx":75
  *         return self.write_to_string()
  * 
  *     def write_to_string(self) -> bytes:             # <<<<<<<<<<<<<<
@@ -4008,7 +4138,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_8write_to_string(st
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":77
+/* "extensions/cylimiter.pyx":78
  *         return self._ptr.get().write_to_string()
  * 
  *     def apply_inplace(self, audio: np.ndarray) -> None:             # <<<<<<<<<<<<<<
@@ -4044,14 +4174,14 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_10apply_inplace(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("apply_inplace", 0);
 
-  /* "extensions/cylimiter.pyx":78
+  /* "extensions/cylimiter.pyx":79
  * 
  *     def apply_inplace(self, audio: np.ndarray) -> None:
  *         _check_array(audio)             # <<<<<<<<<<<<<<
  *         cdef float[:] audio_memview = audio
  *         self._ptr.get().apply_inplace(&audio_memview[0], audio_memview.shape[0])
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_check_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 78, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_check_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -4065,24 +4195,24 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_10apply_inplace(str
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_audio) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_audio);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 78, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "extensions/cylimiter.pyx":79
+  /* "extensions/cylimiter.pyx":80
  *     def apply_inplace(self, audio: np.ndarray) -> None:
  *         _check_array(audio)
  *         cdef float[:] audio_memview = audio             # <<<<<<<<<<<<<<
  *         self._ptr.get().apply_inplace(&audio_memview[0], audio_memview.shape[0])
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_ds_float(__pyx_v_audio, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 79, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_ds_float(__pyx_v_audio, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 80, __pyx_L1_error)
   __pyx_v_audio_memview = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
 
-  /* "extensions/cylimiter.pyx":80
+  /* "extensions/cylimiter.pyx":81
  *         _check_array(audio)
  *         cdef float[:] audio_memview = audio
  *         self._ptr.get().apply_inplace(&audio_memview[0], audio_memview.shape[0])             # <<<<<<<<<<<<<<
@@ -4097,11 +4227,11 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_10apply_inplace(str
   } else if (unlikely(__pyx_t_5 >= __pyx_v_audio_memview.shape[0])) __pyx_t_6 = 0;
   if (unlikely(__pyx_t_6 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_6);
-    __PYX_ERR(1, 80, __pyx_L1_error)
+    __PYX_ERR(1, 81, __pyx_L1_error)
   }
   __pyx_v_self->_ptr.get()->apply_inplace((&(*((float *) ( /* dim=0 */ (__pyx_v_audio_memview.data + __pyx_t_5 * __pyx_v_audio_memview.strides[0]) )))), (__pyx_v_audio_memview.shape[0]));
 
-  /* "extensions/cylimiter.pyx":77
+  /* "extensions/cylimiter.pyx":78
  *         return self._ptr.get().write_to_string()
  * 
  *     def apply_inplace(self, audio: np.ndarray) -> None:             # <<<<<<<<<<<<<<
@@ -4126,7 +4256,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_10apply_inplace(str
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":82
+/* "extensions/cylimiter.pyx":83
  *         self._ptr.get().apply_inplace(&audio_memview[0], audio_memview.shape[0])
  * 
  *     def apply(self, audio) -> np.ndarray:             # <<<<<<<<<<<<<<
@@ -4163,38 +4293,38 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_12apply(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("apply", 0);
 
-  /* "extensions/cylimiter.pyx":83
+  /* "extensions/cylimiter.pyx":84
  * 
  *     def apply(self, audio) -> np.ndarray:
  *         audio_arr = np.copy(np.ascontiguousarray(audio, dtype=np.float32))             # <<<<<<<<<<<<<<
  *         self.apply_inplace(audio_arr)
  *         return audio_arr
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_audio);
   __Pyx_GIVEREF(__pyx_v_audio);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_audio);
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(1, 83, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4212,20 +4342,20 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_12apply(struct __py
   __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_7);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 83, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_audio_arr = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "extensions/cylimiter.pyx":84
+  /* "extensions/cylimiter.pyx":85
  *     def apply(self, audio) -> np.ndarray:
  *         audio_arr = np.copy(np.ascontiguousarray(audio, dtype=np.float32))
  *         self.apply_inplace(audio_arr)             # <<<<<<<<<<<<<<
  *         return audio_arr
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_apply_inplace); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 84, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_apply_inplace); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4239,12 +4369,12 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_12apply(struct __py
   }
   __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_7, __pyx_v_audio_arr) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_audio_arr);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 84, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "extensions/cylimiter.pyx":85
+  /* "extensions/cylimiter.pyx":86
  *         audio_arr = np.copy(np.ascontiguousarray(audio, dtype=np.float32))
  *         self.apply_inplace(audio_arr)
  *         return audio_arr             # <<<<<<<<<<<<<<
@@ -4256,7 +4386,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_12apply(struct __py
   __pyx_r = __pyx_v_audio_arr;
   goto __pyx_L0;
 
-  /* "extensions/cylimiter.pyx":82
+  /* "extensions/cylimiter.pyx":83
  *         self._ptr.get().apply_inplace(&audio_memview[0], audio_memview.shape[0])
  * 
  *     def apply(self, audio) -> np.ndarray:             # <<<<<<<<<<<<<<
@@ -4282,7 +4412,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_12apply(struct __py
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":87
+/* "extensions/cylimiter.pyx":88
  *         return audio_arr
  * 
  *     def reset(self) -> None:             # <<<<<<<<<<<<<<
@@ -4312,7 +4442,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_14reset(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "extensions/cylimiter.pyx":88
+  /* "extensions/cylimiter.pyx":89
  * 
  *     def reset(self) -> None:
  *         return self._ptr.get().reset()             # <<<<<<<<<<<<<<
@@ -4320,13 +4450,13 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_14reset(struct __py
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->_ptr.get()->reset()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 88, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_v_self->_ptr.get()->reset()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "extensions/cylimiter.pyx":87
+  /* "extensions/cylimiter.pyx":88
  *         return audio_arr
  * 
  *     def reset(self) -> None:             # <<<<<<<<<<<<<<
@@ -4458,7 +4588,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter_9ReverbRIR_18__setstate_cython
   return __pyx_r;
 }
 
-/* "extensions/cylimiter.pyx":91
+/* "extensions/cylimiter.pyx":92
  * 
  * 
  * def _check_array(arr) -> None:             # <<<<<<<<<<<<<<
@@ -4492,7 +4622,7 @@ static PyObject *__pyx_pf_10extensions_9cylimiter__check_array(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_check_array", 0);
 
-  /* "extensions/cylimiter.pyx":92
+  /* "extensions/cylimiter.pyx":93
  * 
  * def _check_array(arr) -> None:
  *     assert isinstance(arr, np.ndarray), "For in-place operations, we only support Numpy arrays. Either convert your input to a 1D Numpy array, or use the non-in-place operation ('effect.apply(arr)')."             # <<<<<<<<<<<<<<
@@ -4501,21 +4631,21 @@ static PyObject *__pyx_pf_10extensions_9cylimiter__check_array(CYTHON_UNUSED PyO
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 92, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ndarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 92, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ndarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = PyObject_IsInstance(__pyx_v_arr, __pyx_t_2); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(1, 92, __pyx_L1_error)
+    __pyx_t_3 = PyObject_IsInstance(__pyx_v_arr, __pyx_t_2); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(1, 93, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (unlikely(!(__pyx_t_3 != 0))) {
       PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_For_in_place_operations_we_only);
-      __PYX_ERR(1, 92, __pyx_L1_error)
+      __PYX_ERR(1, 93, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "extensions/cylimiter.pyx":93
+  /* "extensions/cylimiter.pyx":94
  * def _check_array(arr) -> None:
  *     assert isinstance(arr, np.ndarray), "For in-place operations, we only support Numpy arrays. Either convert your input to a 1D Numpy array, or use the non-in-place operation ('effect.apply(arr)')."
  *     assert arr.dtype == np.float32, "We only support np.float32 dtype for in-place operations."             # <<<<<<<<<<<<<<
@@ -4524,26 +4654,26 @@ static PyObject *__pyx_pf_10extensions_9cylimiter__check_array(CYTHON_UNUSED PyO
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_arr, __pyx_n_s_dtype); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 93, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_arr, __pyx_n_s_dtype); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 94, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 93, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 93, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 94, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 93, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 93, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 94, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(!__pyx_t_3)) {
       PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_We_only_support_np_float32_dtype);
-      __PYX_ERR(1, 93, __pyx_L1_error)
+      __PYX_ERR(1, 94, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "extensions/cylimiter.pyx":94
+  /* "extensions/cylimiter.pyx":95
  *     assert isinstance(arr, np.ndarray), "For in-place operations, we only support Numpy arrays. Either convert your input to a 1D Numpy array, or use the non-in-place operation ('effect.apply(arr)')."
  *     assert arr.dtype == np.float32, "We only support np.float32 dtype for in-place operations."
  *     assert arr.ndim == 1, "The input array has to be single-dimensional (only mono audio is supported)."             # <<<<<<<<<<<<<<
@@ -4551,42 +4681,42 @@ static PyObject *__pyx_pf_10extensions_9cylimiter__check_array(CYTHON_UNUSED PyO
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_arr, __pyx_n_s_ndim); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_arr, __pyx_n_s_ndim); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 95, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 95, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 95, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (unlikely(!__pyx_t_3)) {
       PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_The_input_array_has_to_be_single);
-      __PYX_ERR(1, 94, __pyx_L1_error)
+      __PYX_ERR(1, 95, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "extensions/cylimiter.pyx":95
+  /* "extensions/cylimiter.pyx":96
  *     assert arr.dtype == np.float32, "We only support np.float32 dtype for in-place operations."
  *     assert arr.ndim == 1, "The input array has to be single-dimensional (only mono audio is supported)."
  *     assert arr.flags['C_CONTIGUOUS'], "The input array has to be contiguous (you can use np.ascontiguousarray)."             # <<<<<<<<<<<<<<
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_arr, __pyx_n_s_flags); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 95, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_arr, __pyx_n_s_flags); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 96, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_4, __pyx_n_u_C_CONTIGUOUS); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 95, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_4, __pyx_n_u_C_CONTIGUOUS); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 96, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 95, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 96, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(!__pyx_t_3)) {
       PyErr_SetObject(PyExc_AssertionError, __pyx_kp_u_The_input_array_has_to_be_contig);
-      __PYX_ERR(1, 95, __pyx_L1_error)
+      __PYX_ERR(1, 96, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "extensions/cylimiter.pyx":91
+  /* "extensions/cylimiter.pyx":92
  * 
  * 
  * def _check_array(arr) -> None:             # <<<<<<<<<<<<<<
@@ -18101,7 +18231,7 @@ static void __pyx_tp_dealloc_10extensions_9cylimiter_ReverbRIR(PyObject *o) {
 }
 
 static PyMethodDef __pyx_methods_10extensions_9cylimiter_ReverbRIR[] = {
-  {"_init_from_rir", (PyCFunction)__pyx_pw_10extensions_9cylimiter_9ReverbRIR_3_init_from_rir, METH_O, 0},
+  {"_init_from_rir", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_10extensions_9cylimiter_9ReverbRIR_3_init_from_rir, METH_VARARGS|METH_KEYWORDS, 0},
   {"__setstate__", (PyCFunction)__pyx_pw_10extensions_9cylimiter_9ReverbRIR_5__setstate__, METH_O, 0},
   {"__getstate__", (PyCFunction)__pyx_pw_10extensions_9cylimiter_9ReverbRIR_7__getstate__, METH_NOARGS, 0},
   {"write_to_string", (PyCFunction)__pyx_pw_10extensions_9cylimiter_9ReverbRIR_9write_to_string, METH_NOARGS, 0},
@@ -18959,6 +19089,7 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ASCII, __pyx_k_ASCII, sizeof(__pyx_k_ASCII), 0, 0, 1, 1},
+  {&__pyx_kp_u_Argument_mix_must_be_between_0_a, __pyx_k_Argument_mix_must_be_between_0_a, sizeof(__pyx_k_Argument_mix_must_be_between_0_a), 0, 1, 0, 0},
   {&__pyx_kp_s_Buffer_view_does_not_expose_stri, __pyx_k_Buffer_view_does_not_expose_stri, sizeof(__pyx_k_Buffer_view_does_not_expose_stri), 0, 0, 1, 0},
   {&__pyx_n_u_C_CONTIGUOUS, __pyx_k_C_CONTIGUOUS, sizeof(__pyx_k_C_CONTIGUOUS), 0, 1, 0, 1},
   {&__pyx_kp_s_Can_only_create_a_buffer_that_is, __pyx_k_Can_only_create_a_buffer_that_is, sizeof(__pyx_k_Can_only_create_a_buffer_that_is), 0, 0, 1, 0},
@@ -19033,6 +19164,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
+  {&__pyx_n_s_mix, __pyx_k_mix, sizeof(__pyx_k_mix), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
@@ -19335,17 +19467,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
 
-  /* "extensions/cylimiter.pyx":91
+  /* "extensions/cylimiter.pyx":92
  * 
  * 
  * def _check_array(arr) -> None:             # <<<<<<<<<<<<<<
  *     assert isinstance(arr, np.ndarray), "For in-place operations, we only support Numpy arrays. Either convert your input to a 1D Numpy array, or use the non-in-place operation ('effect.apply(arr)')."
  *     assert arr.dtype == np.float32, "We only support np.float32 dtype for in-place operations."
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_n_s_arr); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 91, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_n_s_arr); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cylimiter_pyx, __pyx_n_s_check_array, 91, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(1, 91, __pyx_L1_error)
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cylimiter_pyx, __pyx_n_s_check_array, 92, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(1, 92, __pyx_L1_error)
 
   /* "View.MemoryView":287
  *         return self.name
@@ -19838,16 +19970,16 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) __PYX_ERR(1, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "extensions/cylimiter.pyx":91
+  /* "extensions/cylimiter.pyx":92
  * 
  * 
  * def _check_array(arr) -> None:             # <<<<<<<<<<<<<<
  *     assert isinstance(arr, np.ndarray), "For in-place operations, we only support Numpy arrays. Either convert your input to a 1D Numpy array, or use the non-in-place operation ('effect.apply(arr)')."
  *     assert arr.dtype == np.float32, "We only support np.float32 dtype for in-place operations."
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_10extensions_9cylimiter_1_check_array, NULL, __pyx_n_s_extensions_cylimiter); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 91, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_10extensions_9cylimiter_1_check_array, NULL, __pyx_n_s_extensions_cylimiter); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_check_array, __pyx_t_2) < 0) __PYX_ERR(1, 91, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_check_array, __pyx_t_2) < 0) __PYX_ERR(1, 92, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "extensions/cylimiter.pyx":1

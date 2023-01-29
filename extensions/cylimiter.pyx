@@ -52,17 +52,18 @@ cdef class Limiter:
 cdef class ReverbRIR:
     cdef unique_ptr[CReverbRIR] _ptr
 
-    def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None):
+    def __init__(self, rir: Optional[Union[Sequence[float], np.ndarray]] = None, mix: float = 1.0):
+        assert 0.0 <= mix <= 1.0, "Argument 'mix' must be between 0 and 1."
         if rir is None:
-            self._ptr.reset(new CReverbRIR())
+            self._ptr.reset(new CReverbRIR(mix))
         else:
-            self._init_from_rir(rir)
+            self._init_from_rir(rir, mix)
 
-    def _init_from_rir(self, rir):
+    def _init_from_rir(self, rir, mix: float):
         # There will be two copies total, but it shouldn't be too bad...
         rir = np.copy(np.ascontiguousarray(rir, dtype=np.float32))
         cdef float[:] rir_memview = rir
-        self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0]))
+        self._ptr.reset(new CReverbRIR(&rir_memview[0], rir_memview.shape[0], mix))
 
     def __setstate__(self, state: bytes) -> None:
         self.__init__()

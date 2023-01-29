@@ -9,9 +9,9 @@ class ReverbRIR {
     // to be able to avoid memory copies from python/numpy/cython to C++
     // and provide an inplace modification API for numpy arrays.
     public:
-        ReverbRIR();
+        ReverbRIR(const float mix = 1.0f);
 
-        ReverbRIR(const float * const rir, const std::size_t num_samples);
+        ReverbRIR(const float * const rir, const std::size_t num_samples, const float mix = 1.0f);
 
         void apply_inplace(float * const audio, const std::size_t num_samples);
         std::vector<float> apply(float const * const audio, const std::size_t num_samples);
@@ -22,9 +22,10 @@ class ReverbRIR {
 
     // Mutable state
     private:
-        std::deque<float> buffer_;
+        std::vector<float> buffer_;
 
     // Settings
     private:
         std::vector<float> rir_;
+        float mix_;
 };

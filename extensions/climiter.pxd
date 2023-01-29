@@ -23,9 +23,9 @@ cdef extern from "reverb_rir.h" nogil:
 
     cdef cppclass ReverbRIR:
 
-        ReverbRIR()
+        ReverbRIR(const float)
 
-        ReverbRIR(const float * const, const size_t)
+        ReverbRIR(const float * const, const size_t, const float)
 
         ReverbRIR read_from_string(string data)
 

@@ -21,6 +21,18 @@ def test_reverb_rir():
     np.testing.assert_array_less(out, 1.0)
 
 
+def test_reverb_rir_mix():
+    # Example of applying reverb that copies the signal
+    audio = get_audio()
+    effect = ReverbRIR()
+    out = effect.apply(audio)
+
+    effect2 = ReverbRIR(mix=0.9)
+    out2 = effect.apply(audio)
+
+    assert (out!= out2).any()
+
+
 def test_reverb_nondefault_args():
     # Example of applying effect that copies the signal
     audio = get_audio()
@@ -48,6 +60,7 @@ def test_reverb_inplace_fails_with_float64():
         effect.apply_inplace(audio)
 
 
+@pytest.mark.bench
 def test_reverb_inplace():
     effect = ReverbRIR()
     chunk_size = 1200  # for streaming processing
