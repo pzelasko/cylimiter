@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
-          pip install numpy Cython pytest
+          pip install numpy Cython pytest pytest-benchmark
 
       - name: Install package
         shell: bash
@@ -44,3 +44,8 @@ jobs:
         shell: bash
         run: |
           pytest tests
+
+      - name: Benchmark
+        shell: bash
+        run: |
+          pytest benchmark

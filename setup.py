@@ -98,7 +98,7 @@ def main() -> None:
             'dev': ['pytest', 'Cython']
         },
         ext_modules=extensions,
-        packages=find_packages(exclude=["tests"]),
+        packages=find_packages(exclude=["tests", "benchmark"]),
         zip_safe=False,
     )
 
