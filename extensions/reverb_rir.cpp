@@ -35,12 +35,53 @@ ReverbRIR::ReverbRIR(const float * const rir, const size_t num_samples, const fl
     validate_mix(mix_);
 }
 
+
+float inner_product_clang(const vector<float> &buffer_, const vector<float> &rir_, int offset) {
+    const auto SIZE = rir_.size();
+    float sum = 0.0f;
+    #pragma clang loop vectorize(assume_safety)
+    for (unsigned int i = 0; i < SIZE; ++i) {
+        sum += buffer_[offset + i] * rir_[i];
+    }
+    return sum;
+}
+
+
+float inner_product_gcc(const vector<float> &buffer_, const vector<float> &rir_, int offset) {
+    const auto SIZE = rir_.size();
+    float sum = 0.0f;
+    #pragma GCC ivdep
+    for (unsigned int i = 0; i < SIZE; ++i) {
+        sum += buffer_[offset + i] * rir_[i];
+    }
+    return sum;
+}
+
 void ReverbRIR::apply_inplace(float * const audio, const size_t num_samples) {
-    const auto RIR_SIZE = rir_.size();
+//    const auto RIR_SIZE = rir_.size();
     const auto dry = 1.0f - mix_;
     copy(audio, audio + num_samples, back_inserter(buffer_));
     for (unsigned int idx = 0; idx < num_samples; ++idx) {
-        audio[idx] = mix_ * inner_product(buffer_.cbegin() + idx, buffer_.cbegin() + idx + RIR_SIZE, rir_.cbegin(), 0.0f) + dry * audio[idx];
+
+        // Apparently std::inner_product does not get auto-vectorized,
+        // but we can help the compiler with a few pragmas, so we write
+        // it out explicitly.
+
+        #if defined(__clang__)
+        const auto sum = inner_product_clang(buffer_, rir_, idx);
+        #elif defined(__GNUC__)
+        const auto sum = inner_product_gcc(buffer_, rir_, idx);
+        #else
+        const auto sum = inner_product(buffer_.cbegin() + idx, buffer_.cbegin() + idx + RIR_SIZE, rir_.cbegin(), 0.0f);
+        #endif
+
+//        float sum = 0.0f;
+//        #pragma clang loop vectorize(assume_safety)
+//        for (unsigned int i = 0; i < RIR_SIZE; ++i) {
+//            sum += buffer_[idx + i] * rir_[i];
+//        }
+
+        audio[idx] = mix_ * sum + dry * audio[idx];
     }
     buffer_.erase(buffer_.begin(), buffer_.begin() + num_samples);
 }
