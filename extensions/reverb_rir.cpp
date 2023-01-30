@@ -50,7 +50,7 @@ float inner_product_clang(const vector<float> &buffer_, const vector<float> &rir
 float inner_product_gcc(const vector<float> &buffer_, const vector<float> &rir_, int offset) {
     const auto SIZE = rir_.size();
     float sum = 0.0f;
-    #pragma GCC ivdep
+    #pragma omp simd reduction(+:sum)
     for (unsigned int i = 0; i < SIZE; ++i) {
         sum += buffer_[offset + i] * rir_[i];
     }

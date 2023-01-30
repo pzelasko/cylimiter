@@ -39,6 +39,9 @@ if os.name != "nt":
         "-Wno-unused-function",
         "-Wno-unused-local-typedefs",
     ])
+    if not platform.startswith("darwin"):
+        COMPILE_ARGS.append("-fopenmp")
+        COMPILE_ARGS.append("-march=native")
 
 if platform.startswith("darwin"):
     COMPILE_ARGS.append("-stdlib=libc++")
