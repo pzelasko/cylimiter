@@ -70,7 +70,7 @@ void ReverbRIR::apply_inplace(float * const audio, const size_t num_samples) {
         #elif defined(__GNUC__)
         const auto sum = inner_product_gcc(buffer_, rir_, idx);
         #else
-        const auto sum = inner_product(buffer_.cbegin() + idx, buffer_.cbegin() + idx + RIR_SIZE, rir_.cbegin(), 0.0f);
+        const auto sum = inner_product(buffer_.cbegin() + idx, buffer_.cbegin() + idx + rir_.size(), rir_.cbegin(), 0.0f);
         #endif
 
         audio[idx] = mix_ * sum + dry * audio[idx];

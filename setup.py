@@ -11,6 +11,7 @@ try:
 except ImportError:
     cythonize = None
 
+
 # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
 def no_cythonize(extensions, **_ignore):
     for extension in extensions:
@@ -28,19 +29,20 @@ def no_cythonize(extensions, **_ignore):
     return extensions
 
 
-COMPILE_ARGS = [
-    "-std=c++11",
-    "-funsigned-char",
-]
+COMPILE_ARGS = []
+
 if os.name != "nt":
-    COMPILE_ARGS.append("-Wno-register")
-    COMPILE_ARGS.append("-Wno-unused-function")
-    COMPILE_ARGS.append("-Wno-unused-local-typedefs")
+    COMPILE_ARGS.extend([
+        "-std=c++11",
+        "-funsigned-char",
+        "-Wno-register",
+        "-Wno-unused-function",
+        "-Wno-unused-local-typedefs",
+    ])
 
 if platform.startswith("darwin"):
     COMPILE_ARGS.append("-stdlib=libc++")
     COMPILE_ARGS.append("-mmacosx-version-min=10.7")
-
 
 cylimiter = Extension(
     name="cylimiter",
@@ -53,16 +55,13 @@ extensions = [cylimiter]
 
 CYTHONIZE = bool(int(os.getenv("CYTHONIZE", 0))) and cythonize is not None
 
-
 if CYTHONIZE:
     compiler_directives = {"language_level": 3, "embedsignature": True}
     extensions = cythonize(extensions, compiler_directives=compiler_directives)
 else:
     extensions = no_cythonize(extensions)
 
-
 __version__ = "0.4.2"
-
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "README.md"), encoding="utf8") as source:
