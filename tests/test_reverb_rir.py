@@ -60,7 +60,6 @@ def test_reverb_inplace_fails_with_float64():
         effect.apply_inplace(audio)
 
 
-@pytest.mark.bench
 def test_reverb_inplace():
     effect = ReverbRIR()
     chunk_size = 1200  # for streaming processing
