@@ -58,7 +58,6 @@ float inner_product_gcc(const vector<float> &buffer_, const vector<float> &rir_,
 }
 
 void ReverbRIR::apply_inplace(float * const audio, const size_t num_samples) {
-//    const auto RIR_SIZE = rir_.size();
     const auto dry = 1.0f - mix_;
     copy(audio, audio + num_samples, back_inserter(buffer_));
     for (unsigned int idx = 0; idx < num_samples; ++idx) {
@@ -66,7 +65,6 @@ void ReverbRIR::apply_inplace(float * const audio, const size_t num_samples) {
         // Apparently std::inner_product does not get auto-vectorized,
         // but we can help the compiler with a few pragmas, so we write
         // it out explicitly.
-
         #if defined(__clang__)
         const auto sum = inner_product_clang(buffer_, rir_, idx);
         #elif defined(__GNUC__)
@@ -74,12 +72,6 @@ void ReverbRIR::apply_inplace(float * const audio, const size_t num_samples) {
         #else
         const auto sum = inner_product(buffer_.cbegin() + idx, buffer_.cbegin() + idx + RIR_SIZE, rir_.cbegin(), 0.0f);
         #endif
-
-//        float sum = 0.0f;
-//        #pragma clang loop vectorize(assume_safety)
-//        for (unsigned int i = 0; i < RIR_SIZE; ++i) {
-//            sum += buffer_[idx + i] * rir_[i];
-//        }
 
         audio[idx] = mix_ * sum + dry * audio[idx];
     }
