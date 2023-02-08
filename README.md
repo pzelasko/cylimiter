@@ -37,7 +37,7 @@ chunk_size = 1200  # for streaming processing
 # Example of applying limiter in-place (more efficient)
 audio = np.random.randn(44100) * 10
 for i in range(0, 44100, chunk_size):
-    chunk = audio[i * chunk_size: (i + 1) * chunk_size]
+    chunk = audio[i : i + chunk_size]
     limiter.limit_inplace(chunk)
     # ... do sth with chunk
 
